@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <meta charset="UTF-8">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>balloons</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                font-family: sans-serif;
+            }
+
+            #hra {
+                display: flex;
+                flex: 1;
+                min-height: 100vh;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #balloons {
+                margin-right: 5em;
+            }
+
+            #balloon {
+                
+            }
+        </style>
+    </head>
+    <body>
+        <div class="input-group">
+                <span class="input-group-addon" id="maxLabel">Pocet balonku</span>
+                <input type="number" id="maxInput" value="8" oninput="setMax()" class="form-control" placeholder="Username" aria-describedby="maxLabel">
+              </div>
+
+        <div id="hra">
+            <div id="balloons" class="alert alert-primary">
+                <h1>Balloons</h1>
+                <p>celkem vybrano Kc: <span id="vybrano">0</span></p>
+                <p>zbyva balonku: <span id="nafouknuto">0</span>/<span id="maxBalonku">8</span></p>
+                <p>Kc: <span id="Kc">0</span></p>
+                <button id="airButton" class="btn btn-primary" onclick="nafoukni()">nafoukni</button>
+                <button class="btn btn-success" onclick="vyber()">vyber</button>
+            </div>
+            <img src="" id="balloon" width="341" height="443" onclick="popBalloon()">
+        </div>
+
+        <script src="script.js" defer></script> 
+    </body>
+</html>
