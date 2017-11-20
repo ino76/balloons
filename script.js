@@ -10,6 +10,8 @@ const maxInput = document.getElementById('maxInput')
 const balloon = document.getElementById('balloon')
 const START_WIDTH = '110px'
 const START_HEIGHT = '150px'
+const coinsSound = document.getElementById('coins')
+const popSound = document.getElementById('pop')
 
 let vybranoValue = Number(vybrano.textContent)
 let kcValue = Number(kc.textContent)
@@ -39,10 +41,11 @@ function checkRandomPop() {
 
 
 function popBalloon() {
+    popSound.play()
     console.log('POP!')
     nafouknutoValue++
     nafouknuto.textContent = nafouknutoValue
-    balloon.src = randColor + 'Pop.png'
+    balloon.src = 'images/' + randColor + 'Pop.png'
     airButton.disabled = true
     setTimeout(kontrola, 1000)
 }
@@ -75,7 +78,7 @@ function changeColor() {
     lastColor = randColor
     console.log('barva nastavena na ' + randColor)
     console.log('pravdepodobnost prasknuti je ' + probabilityToPop + '%')
-    balloon.src = randColor + 'Balloon.png'
+    balloon.src = 'images/' + randColor + 'Balloon.png'
 }
 
 function balonPrifouknut() {
@@ -122,10 +125,13 @@ function setMax() {
 function vyber() {
     nafouknutoValue++
     vybranoValue += kcValue
-    kcValue = 0
     kc.textContent = kcValue
     vybrano.textContent = vybranoValue
     nafouknuto.textContent = nafouknutoValue
+    if(kcValue > 0) {
+        kcValue = 0
+        coinsSound.play()
+    }
     kontrola()
 }
 
