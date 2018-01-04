@@ -23,6 +23,7 @@ balloon.style.width = balloonWidth
 balloon.style.height = balloonHeight
 let color = ['red', 'green', 'blue']
 let probabilityToPop
+let addedProbability = 0
 let randColor 
 let lastColor
 let koeficient = 0
@@ -59,18 +60,20 @@ function changeColor() {
         return
     }
 
+    probabilityToPop = 0
+
     switch(newColor) {
         case 'red':
-        probabilityToPop = 3
-        koeficient += 60
+            addedProbability = 3
+            koeficient += 60
         break;
         case 'blue':
-        probabilityToPop = 6
-        koeficient += 30
+            addedProbability = 2
+            koeficient += 30
         break;
         case 'green':
-        probabilityToPop = 12
-        koeficient += 10
+            addedProbability = 1
+            koeficient += 10
         break;
     }
 
@@ -94,10 +97,27 @@ function balonPrifouknut() {
 
 
 function nafoukni(){
-    kcValue = Number(kc.textContent) + 5
+
+    switch(randColor) {
+        case 'red':
+            kcValue = Number(kc.textContent) + (30 * probabilityToPop) + 5
+        break;
+
+        case 'blue':
+            kcValue = Number(kc.textContent) + (15 * probabilityToPop) + 5
+        break;
+
+        case 'green':
+            kcValue = Number(kc.textContent) + (5 * probabilityToPop) + 5
+        break;
+    }
+    
     kc.textContent = (kcValue)
     checkRandomPop()
     balonPrifouknut()
+    probabilityToPop += addedProbability
+    console.log('pravdepodobnost prasknuti je ' + probabilityToPop + '%')
+    console.log('odmena je ' + kc.textContent + ' kreditu')
 }
 
 
@@ -139,9 +159,9 @@ function vyber() {
 function kontrola() {
     airButton.disabled = false
     if (maxBalonkuValue === nafouknutoValue) {
-        alert('Dosly vam balonky.\n' + 'Koeficient: ' + koeficient +
-              ', penez celkem vybrano: ' + vybranoValue + 'Kc' +
-              '\nVase hodnoceni: ' + Math.ceil(vybranoValue / koeficient * 100) + '%')
+        alert('All balloons were used.\nSummary:\n\n' + 'Koeficient: ' + koeficient +
+              '\nCollected coins: ' + vybranoValue +
+              '\nOverall rating: ' + Math.ceil(vybranoValue / koeficient * 100) + '%')
         obnovNastaveni()
     } else {
         novyBalon()

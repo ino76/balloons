@@ -1,57 +1,94 @@
 <!DOCTYPE html>
 <html lang="cs">
-    <meta charset="UTF-8">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>balloons</title>
+    <title>balloons</title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-        <style>
-            html, body {
-                margin: 0;
-                padding: 0;
-                font-family: sans-serif;
-            }
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background-color: #0f0f0f;
+            color: white;
+        }
 
-            #hra {
-                display: flex;
-                flex: 1;
-                min-height: 100vh;
-                align-items: center;
-                justify-content: center;
-            }
 
-            #balloons {
-                margin-right: 5em;
-            }
+        #hra {
+            display: flex;
+            flex: 1;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: flex-end;
+        }
 
-            #balloon {
-                
-            }
-        </style>
-    </head>
-    <body>
-        <div class="input-group">
-                <span class="input-group-addon" id="maxLabel">Pocet balonku</span>
-                <input type="number" id="maxInput" value="8" oninput="setMax()" class="form-control" placeholder="Username" aria-describedby="maxLabel">
-              </div>
+        #balloons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 5em;
+            max-width: 350px;
+        }
 
-        <div id="hra">
-            <div id="balloons" class="alert alert-primary">
-                <h1>Balloons</h1>
-                <p>celkem vybrano Kc: <span id="vybrano">0</span></p>
-                <p>pouzito balonku: <span id="nafouknuto">0</span>/<span id="maxBalonku">8</span></p>
-                <p>Kc: <span id="Kc">0</span></p>
-                <button id="airButton" class="btn btn-primary" onclick="nafoukni()">nafoukni</button>
-                <button class="btn btn-success" onclick="vyber()">vyber</button>
-            </div>
-            <img src="" id="balloon" width="341" height="443" onclick="popBalloon()">
+        #balloonWrap {
+            /*border: 1px solid red;*/
+            height: 100vh;
+            width: 50vw;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        #balloon {
+            /*border: 1px solid red;*/
+        }
+
+        .input-group {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="home" style="position: absolute;padding-top: 15px; padding-left: 15px;">
+    <a class="btn btn-dark" href="gameSelection">
+        <i class="fa fa-arrow-left"></i> back to game selecton
+    </a>
+</div>
+
+<div class="input-group">
+    <span class="input-group-addon" id="maxLabel">Pocet balonku</span>
+    <input type="number" id="maxInput" value="8" oninput="setMax()" class="form-control" placeholder="Username" aria-describedby="maxLabel">
+</div>
+
+<div id="hra">
+    <div id="balloons" class="alert alert-dark">
+        <h1>Balloons</h1>
+        <p>
+            Try to collect as much money as you can. Different colors of balloons has different chance to burst.
+            Inflate will rise reward about five coins, but if balloon would burst, all reward would be gone.
+        </p>
+        <p>coins: <span id="vybrano">0</span></p>
+        <p>used balloons: <span id="nafouknuto">0</span>/<span id="maxBalonku">20</span></p>
+        <p>reward: <span id="Kc">0</span></p>
+        <div>
+            <button id="airButton" class="btn btn-danger" onclick="nafoukni()">inflate</button>
+            <button class="btn btn-success" onclick="vyber()">collect</button>
         </div>
 
-        <audio id="coins" src="sounds/coins.wav"></audio>
-        <audio id="pop" src="sounds/pop.wav"></audio>
+    </div>
+    <div id="balloonWrap">
+        <img src="" id="balloon" width="341" height="443" onclick="popBalloon()">
+    </div>
 
-        <script src="script.js" defer></script> 
-    </body>
+</div>
+
+<audio id="coins" src="audio/coins.wav"></audio>
+<audio id="pop" src="audio/pop.wav"></audio>
+
+<script src="balloonScript.js" defer></script>
+</body>
 </html>
