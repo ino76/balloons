@@ -7,7 +7,7 @@ const kc = document.getElementById('Kc')
 const nafouknuto = document.getElementById('nafouknuto')
 const maxBalonku = document.getElementById('maxBalonku')
 const maxInput = document.getElementById('maxInput')
-const balloon = document.getElementById('balloon1')
+
 const START_WIDTH = '110px'
 const START_HEIGHT = '150px'
 const coinsSound = document.getElementById('coins')
@@ -17,20 +17,30 @@ let vybranoValue = Number(vybrano.textContent)
 let kcValue = Number(kc.textContent)
 let nafouknutoValue = Number(nafouknuto.textContent)
 let maxBalonkuValue = Number(maxBalonku.textContent)
-let balloonWidth = START_WIDTH
-let balloonHeight = START_HEIGHT
-balloon.style.width = balloonWidth
-balloon.style.height = balloonHeight
+balloon1.style.width = START_WIDTH
+balloon1.style.height = START_HEIGHT
+
+balloon2.style.width = START_WIDTH
+balloon2.style.height = START_HEIGHT
+
+balloon3.style.width = START_WIDTH
+balloon3.style.height = START_HEIGHT
 let color = ['red', 'green', 'blue']
 let probabilityToPop
 let addedProbability = 0
-let randColor 
+let randColor1
+let randColor2
+let randColor3
 let lastColor
 let koeficient = 0
 
-window.onload = changeColor()
+let inPop = 0
 
-// TODO ... dodelat funkci na nahodne prasknuti balonku
+window.onload = changeColor(1)
+window.onload = changeColor(2)
+window.onload = changeColor(3)
+
+// zjisti jestli balonek praskl nebo nepraskl
 function checkRandomPop() {
     let random = Math.random() * 100
     random = Math.ceil(random)
@@ -41,61 +51,88 @@ function checkRandomPop() {
 }
 
 
-function popBalloon() {
+// praskne balon
+function popBalloon(number) {
+    if(inPop == number) {
+        return
+    }
+
+    inPop = number
+
     popSound.play()
     console.log('POP!')
     nafouknutoValue++
     nafouknuto.textContent = nafouknutoValue
-    balloon.src = 'images/' + randColor + 'Pop.png'
+    const balloon = document.getElementById('balloon' + number)
+    let color
+    switch(number) {
+        case 1:
+            color = randColor1
+        break;
+        case 2:
+            color = randColor2
+        break;
+        case 3:
+            color = randColor3
+        break;
+    }
+    balloon.src = 'images/' + color + 'Pop.png'
     airButton.disabled = true
-    setTimeout(kontrola, 1000)
+    setTimeout(function(number){kontrola(number)}, 1000)
 }
 
+// zmeni barvu balonku tak aby se vybrala jina nez posledni
+function changeColor(number) {
 
-function changeColor() {
     let newColor = color[Math.floor(Math.random() * color.length)]
-    if (newColor === lastColor) {
-        console.log('jsme v rekurzi ... :O')
-        changeColor()
-        return
-    }
 
     probabilityToPop = 0
 
     switch(newColor) {
         case 'red':
-            addedProbability = 3
-            koeficient += 60
+
         break;
         case 'blue':
-            addedProbability = 2
-            koeficient += 30
+
         break;
         case 'green':
-            addedProbability = 1
-            koeficient += 10
+ 
         break;
     }
 
-    randColor = newColor
-    lastColor = randColor
-    console.log('barva nastavena na ' + randColor)
+    switch(number) {
+        case 1:
+            randColor1 = newColor
+        break;
+        case 2:
+            randColor2 = newColor
+        break;
+        case 3:
+            randColor3 = newColor
+        break;
+    }
+
+    console.log('barva nastavena na ' + newColor)
     console.log('pravdepodobnost prasknuti je ' + probabilityToPop + '%')
-    balloon.src = 'images/' + randColor + 'Balloon.png'
+
+    const balloon = document.getElementById('balloon' + number)
+    balloon.src = 'images/' + newColor + 'Balloon.png'
 }
+
+
 
 function balonPrifouknut() {
     console.log('rozmer: ' +
         balloon.style.width.slice(0,-2) + ' x ' + balloon.style.height.slice(0,-2))
-    let newWidth = Number(balloonWidth.slice(0, -2)) + 2
-    let newHeight = Number(balloonHeight.slice(0, -2)) + 3
+    let newWidth = Number(balloonWidth.slice(0, -2)) + 10
+    let newHeight = Number(balloonHeight.slice(0, -2)) + 15
     balloonWidth = newWidth + 'px'
     balloonHeight = newHeight + 'px'
     balloon.style.width = balloonWidth
     balloon.style.height = balloonHeight
 }
 
-
+// hlavni funkce nafouknuti balonku ... zajisti vsechny zmeny a vola vsechny funkce ktere se ucastni procesu
 function nafoukni(){
 
     switch(randColor) {
@@ -121,14 +158,14 @@ function nafoukni(){
 }
 
 
-function novyBalon() {
+function novyBalon(number) {
     kcValue = 0
     kc.textContent = kcValue
-    balloonWidth = START_WIDTH
-    balloonHeight = START_HEIGHT
-    balloon.style.width = balloonWidth
-    balloon.style.height = balloonHeight
-    changeColor()
+
+    const balloon = document.getElementById('balloon' + number)
+    balloon.style.width = START_WIDTH
+    balloon.style.height = START_HEIGHT
+    changeColor(number)
 }
 
 
@@ -156,7 +193,8 @@ function vyber() {
 }
 
 
-function kontrola() {
+function kontrola(number) {
+    inPop = 0
     airButton.disabled = false
     if (maxBalonkuValue === nafouknutoValue) {
         alert('All balloons were used.\nSummary:\n\n' + 'Koeficient: ' + koeficient +
@@ -164,7 +202,7 @@ function kontrola() {
               '\nOverall rating: ' + Math.ceil(vybranoValue / koeficient * 100) + '%')
         obnovNastaveni()
     } else {
-        novyBalon()
+        novyBalon(number)
     }
 }
 

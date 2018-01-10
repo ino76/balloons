@@ -29,6 +29,12 @@
             /* border: 1px solid blue; */
         }
 
+
+        .index {
+font-size: 25px;
+        }
+
+
         #balloons {
             display: flex;
             flex-direction: column;
@@ -74,15 +80,30 @@
 <div id="hra">
     
     <div id="balloonWrap">
+
         <div style="width: 30vw; display: flex; justify-content: center;">
-            <img src="" id="balloon1" width="341" height="443" onclick="popBalloon()">
+            <img src="" id="balloon1" width="341" height="443" onclick="popBalloon(1)">
+            <div style="display: flex; flex-direction: column; padding: 40px;">
+                <p class="index"><span style="color: rgb(19, 230, 19);">||</span>|||</p>
+                <p>10%</p>
+            </div>
         </div>
+
         <div style="width: 30vw; display: flex; justify-content: center;">
-            <img src="" id="balloon2" width="341" height="443" onclick="popBalloon()">
+            <img src="" id="balloon2" width="341" height="443" onclick="popBalloon(2)">
+            <div style="display: flex; flex-direction: column; padding: 40px;">
+                <p class="index"><span style="color: rgb(230, 191, 19);">||||</span>|</p>
+                <p>20%</p>
+            </div>
         </div>
+
         <div style="width: 30vw; display: flex; justify-content: center;">
-            <img src="" id="balloon3" width="341" height="443" onclick="popBalloon()">
-        </div>
+                <img src="" id="balloon3" width="341" height="443" onclick="popBalloon(3)">
+                <div style="display: flex; flex-direction: column; padding: 40px;">
+                    <p class="index"><span style="color: rgb(230, 44, 19);">|||||</span></p>
+                    <p>40%</p>
+                </div>
+            </div>
         
         
         
