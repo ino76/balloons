@@ -8,6 +8,7 @@ const popSound = document.getElementById('pop')
 const points = document.getElementById('points')
 const poppedValue = document.getElementById('popped')
 const balloonsMax = document.getElementById('balloonsMax')
+const bonusPoints = document.getElementById('bonusPoints')
 let popped = 0
 let maxBalloons = Number(maxBalonku.textContent)
 balloon1.style.width = START_WIDTH
@@ -25,6 +26,7 @@ window.onload = newGame()
 function newBalloon(number) {
     const balloon = document.getElementById('balloon' + number)
     
+    bonusPoints.textContent = ''
     balloon.dataset.popped = ''
     poppedValue.textContent = popped
     
@@ -110,9 +112,11 @@ function tryToInflate(number){
 //zvetsi velikost konkretniho balonu a zmeni barvu carkoveho ukazatele
 function inflate(number) {
     
+    const points = document.getElementById('points')
     const balloon = document.getElementById('balloon' + number)
     const probability = document.getElementById('balloon' + number + 'percent')
     let probabilityData = Number(balloon.dataset.probability)
+    bonusPoints.textContent = '+ ' + Math.floor(Number(points.innerHTML) * (probabilityData / 100)) + ' points'
 
     const width = (Number(balloon.style.width.slice(0, -2)) + 16) + 'px'
     const height = (Number(balloon.style.height.slice(0, -2)) + 24) + 'px'

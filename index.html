@@ -106,16 +106,16 @@
                 Try to collect as much points as you can.
             </p>
             <p>points: <span id="points"></span></p>
-            <p>used balloons: <span id="popped">0</span>/<span id="maxBalonku">8</span></p>
+            <p>balloons used: <span id="popped">0</span>/<span id="maxBalonku">8</span></p>
         </div>
 
         <div class=balloonInnerWrap>
             <img src="" onclick="tryToInflate(1)" id="balloon1" data-probability="0" data-color="" data-blowed="false" data-popped="">
             <div class="balloonInnerText">
                 <p class="center index"><span id="balloon1left"></span><span id="balloon1right">|||||</span></p>
-                <p class="center">risc: <span id="balloon1percent"></span>%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;points: <span></span></p>
+                <p class="center">risc: <span id="balloon1percent"></span>%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="bonusPoints"></span></p>
                 <div class="btn-group center" role="group" aria-label="inflate / collect">
-                    <button class="btn btn-info" onclick="tryToInflate(1)">inflate</button>
+                    <button class="btn btn-primary" onclick="tryToInflate(1)">inflate</button>
                     <button class="btn btn-success" onclick="collect()">collect</button>
                 </div>
             </div>
