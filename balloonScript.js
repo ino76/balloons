@@ -13,22 +13,21 @@ let maxBalloons = Number(maxBalonku.textContent)
 balloon1.style.width = START_WIDTH
 balloon1.style.height = START_HEIGHT
 
-balloon2.style.width = START_WIDTH
-balloon2.style.height = START_HEIGHT
+// balloon2.style.width = START_WIDTH
+// balloon2.style.height = START_HEIGHT
 
-balloon3.style.width = START_WIDTH
-balloon3.style.height = START_HEIGHT
+// balloon3.style.width = START_WIDTH
+// balloon3.style.height = START_HEIGHT
 let color = ['red', 'green', 'blue']
-
-let inPop = 0
 
 window.onload = newGame()
 
 function newBalloon(number) {
-    check()
-
-    poppedValue.textContent = popped
     const balloon = document.getElementById('balloon' + number)
+    
+    balloon.dataset.popped = ''
+    poppedValue.textContent = popped
+    
     const probability = document.getElementById('balloon' + number + 'percent')
     balloon.dataset.probability = 0
     probability.innerHTML = 0
@@ -42,6 +41,7 @@ function newBalloon(number) {
     const balloonLeft =  document.getElementById('balloon' + number + 'left')
     balloonRight.textContent = '|||||'
     balloonLeft.textContent = ''
+    check()
 }
 
 // zmeni barvu balonku
@@ -72,17 +72,12 @@ function changeColor(number) {
 // hlavni funkce nafouknuti balonku ... zajisti vsechny zmeny a vola vsechny funkce ktere se ucastni procesu
 function tryToInflate(number){
 
-    switch(number) {
-        case 1:
+    const balloon = document.getElementById('balloon' + number)
 
-        break;
-        case 2: 
-        break;
-        case 3:
-        break;
+    if(balloon.dataset.popped == 'pop') {
+        return
     }
 
-    const balloon = document.getElementById('balloon' + number)
     const color = balloon.dataset.color
     const probability = document.getElementById('balloon' + number + 'percent')
     let probabilityData = Number(balloon.dataset.probability)
@@ -91,6 +86,7 @@ function tryToInflate(number){
 
     if(dice(1, 100) <= probabilityData) {
         popBalloon(number)
+        return
     }
 
     switch(color) {
@@ -159,11 +155,13 @@ function inflate(number) {
 
 // praskne balon
 function popBalloon(number) {
+    const balloon = document.getElementById('balloon' + number)
+
+    balloon.dataset.popped = 'pop'
+
     popped++
-    inPop = number
     popSound.play()
     console.log('POP!')
-    const balloon = document.getElementById('balloon' + number)
     let color = balloon.dataset.color
     balloon.src = 'images/' + color + 'Pop.png'
     setTimeout(function(){newBalloon(number)}, 1000)
@@ -172,8 +170,8 @@ function popBalloon(number) {
 
 function collect() {
     const balloon1 = document.getElementById('balloon1').dataset.blowed
-    const balloon2 = document.getElementById('balloon2').dataset.blowed
-    const balloon3 = document.getElementById('balloon3').dataset.blowed
+    // const balloon2 = document.getElementById('balloon2').dataset.blowed
+    // const balloon3 = document.getElementById('balloon3').dataset.blowed
 
     let numberOfPoints = Number(points.innerHTML)
     let numberAtStart = numberOfPoints
@@ -186,47 +184,48 @@ function collect() {
         numberOfPoints += Math.floor(numberOfPoints * (probabilityData / 100))
         points.textContent = numberOfPoints
         popped++
-        newBalloon(1)
-        if (maxBalloons < popped) {
-            newGame()
-            return
-        }
-    
+        newBalloon(1)    
+    }
+
+    if (maxBalloons < popped) {
+        newGame()
+        return
     }
 
     
-    if(balloon2 == 'true') {
-        const balloon = document.getElementById('balloon2')
-        const probability = document.getElementById('balloon2percent')
-        let probabilityData = Number(balloon.dataset.probability)
-        numberOfPoints += Math.floor(numberOfPoints * probabilityData / 100)
-        points.textContent = numberOfPoints
-        popped++
-        newBalloon(2)
-        if (maxBalloons < popped) {
-            newGame()
-            return
-        }
-    
-    }
+    // if(balloon2 == 'true') {
+    //     const balloon = document.getElementById('balloon2')
+    //     const probability = document.getElementById('balloon2percent')
+    //     let probabilityData = Number(balloon.dataset.probability)
+    //     numberOfPoints += Math.floor(numberOfPoints * probabilityData / 100)
+    //     points.textContent = numberOfPoints
+    //     popped++
+    //     newBalloon(2)
+    // }
+
+    // if (maxBalloons < popped) {
+    //     newGame()
+    //     return
+    // }
     
 
-    if(balloon3 == 'true') {
-        const balloon = document.getElementById('balloon3')
-        const probability = document.getElementById('balloon3percent')
-        let probabilityData = Number(balloon.dataset.probability)
-        numberOfPoints += Math.floor(numberOfPoints * probabilityData / 100)
-        points.textContent = numberOfPoints
-        popped++
-        newBalloon(3)
-        if (maxBalloons < popped) {
-            newGame()
-            return
-        }
-    
-    }
+    // if(balloon3 == 'true') {
+    //     const balloon = document.getElementById('balloon3')
+    //     const probability = document.getElementById('balloon3percent')
+    //     let probabilityData = Number(balloon.dataset.probability)
+    //     numberOfPoints += Math.floor(numberOfPoints * probabilityData / 100)
+    //     points.textContent = numberOfPoints
+    //     popped++
+    //     newBalloon(3)
+    // }
+
+    // if (maxBalloons < popped) {
+    //     newGame()
+    //     return
+    // }
     
     if(numberAtStart < numberOfPoints) {
+        coinsSound.currentTime = 0;
         coinsSound.play()
     }
     points.textContent = numberOfPoints
@@ -245,8 +244,9 @@ function dice(min, max) {
 
 
 function check() {
-    if (maxBalloons < popped) {
+    if (maxBalloons <= popped) {
         alert('All balloons were used.\nYou have ' + points.textContent + ' points.')
+        newGame()
     }
 }
 
@@ -256,6 +256,6 @@ function newGame() {
     popped = 0
     poppedValue.textContent = 0
     newBalloon(1)
-    newBalloon(2)
-    newBalloon(3)
+    // newBalloon(2)
+    // newBalloon(3)
 }

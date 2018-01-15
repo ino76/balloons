@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:700i" rel="stylesheet">
     <style>
         html, body {
             margin: 0;
@@ -15,7 +17,7 @@
             font-family: sans-serif;
             background-color: #0f0f0f;
             color: white;
-
+            font-family: 'Nunito', sans-serif;
         }
 
 
@@ -25,13 +27,19 @@
             min-height: 100vh;
             align-items: center;
             justify-content: flex-end;
-            flex-direction: column;
             /* border: 1px solid blue; */
         }
 
 
+        .center {
+            text-align: center;
+            font-size: 24px;
+            align-self: center;
+        }
+
+
         .index {
-font-size: 25px;
+            font-size: 50px;
         }
 
 
@@ -48,11 +56,11 @@ font-size: 25px;
 
         #balloonWrap {
             /*border: 1px solid red;*/
-            height: 50vh;
+            height: 60vh;
             width: 100vw;
             display: flex;
             align-items: center;
-            justify-content: space-around;
+            justify-content: center;
             /* border: 1px solid red; */
         }
         #balloon {
@@ -90,19 +98,31 @@ font-size: 25px;
 
 
 <div id="hra">
-    
     <div id="balloonWrap">
 
-        <div class=balloonInnerWrap onclick="tryToInflate(1)">
-            <img src="" id="balloon1" data-probability="0" data-color="" data-blowed="false">
+        <div id="balloons">
+            <h1>Balloons</h1>
+            <p>
+                Try to collect as much points as you can.
+            </p>
+            <p>points: <span id="points"></span></p>
+            <p>used balloons: <span id="popped">0</span>/<span id="maxBalonku">8</span></p>
+        </div>
+
+        <div class=balloonInnerWrap>
+            <img src="" onclick="tryToInflate(1)" id="balloon1" data-probability="0" data-color="" data-blowed="false" data-popped="">
             <div class="balloonInnerText">
-                <p class="index"><span id="balloon1left"></span><span id="balloon1right">|||||</span></p>
-                <p><span id="balloon1percent"></span>%</p>
+                <p class="center index"><span id="balloon1left"></span><span id="balloon1right">|||||</span></p>
+                <p class="center">risc: <span id="balloon1percent"></span>%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;points: <span></span></p>
+                <div class="btn-group center" role="group" aria-label="inflate / collect">
+                    <button class="btn btn-info" onclick="tryToInflate(1)">inflate</button>
+                    <button class="btn btn-success" onclick="collect()">collect</button>
+                </div>
             </div>
         </div>
 
-        <div class=balloonInnerWrap onclick="tryToInflate(2)">
-            <img src="" id="balloon2" data-probability="0" data-color="" data-blowed="false">
+        <!-- <div class=balloonInnerWrap onclick="tryToInflate(2)">
+            <img src="" id="balloon2" data-probability="0" data-color="" data-blowed="false" data-popped="">
             <div class="balloonInnerText">
                 <p class="index"><span id="balloon2left"></span><span id="balloon2right">|||||</span></p>
                 <p><span id="balloon2percent"></span>%</p>
@@ -110,31 +130,12 @@ font-size: 25px;
         </div>
 
         <div class=balloonInnerWrap onclick="tryToInflate(3)">
-                <img src="" id="balloon3" data-probability="0" data-color="" data-blowed="false">
+                <img src="" id="balloon3" data-probability="0" data-color="" data-blowed="false" data-popped="">
                 <div class="balloonInnerText">
                     <p class="index"><span id="balloon3left"></span><span id="balloon3right">|||||</span></p>
                     <p><span id="balloon3percent"></span>%</p>
                 </div>
-            </div>
-        
-        
-        
-    </div>
-
-    <button class="btn btn-success" onclick="collect()">collect</button>
-    <br><br><br>
-    <div id="balloons">
-            
-
-        <h1>Balloons</h1>
-        <p>
-            Try to collect as much money as you can. Different colors of balloons has different chance to burst.
-            Inflate will rise reward about five coins, but if balloon would burst, all reward would be gone.
-        </p>
-        <p>points: <span id="points"></span></p>
-        <p>used balloons: <span id="popped">0</span>/<span id="maxBalonku">5</span></p>
-
-
+        </div> -->
     </div>
 </div>
 
