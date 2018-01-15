@@ -146,6 +146,7 @@ function inflate(number) {
             balloonLeft.style.color = "red"
             balloon.dataset.probability = 100
             probability.innerHTML = 100
+            bonusPoints.textContent = '+ ' + points.innerHTML + ' points'
         break;
     }
 
@@ -190,12 +191,6 @@ function collect() {
         popped++
         newBalloon(1)    
     }
-
-    if (maxBalloons < popped) {
-        newGame()
-        return
-    }
-
     
     // if(balloon2 == 'true') {
     //     const balloon = document.getElementById('balloon2')
@@ -232,7 +227,14 @@ function collect() {
         coinsSound.currentTime = 0;
         coinsSound.play()
     }
-    points.textContent = numberOfPoints
+
+    if (maxBalloons < popped) {
+        console.log('nova hra')
+        newGame()
+        return
+    } else {
+        points.textContent = numberOfPoints
+    }
 }
 
 
@@ -256,10 +258,12 @@ function check() {
 
 
 function newGame() {
-    points.textContent = 100
     popped = 0
     poppedValue.textContent = 0
     newBalloon(1)
+    points.textContent = '100'
+    
+    
     // newBalloon(2)
     // newBalloon(3)
 }
