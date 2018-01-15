@@ -25,7 +25,6 @@ let inPop = 0
 window.onload = newGame()
 
 function newBalloon(number) {
-    popped++
     check()
 
     poppedValue.textContent = popped
@@ -72,6 +71,16 @@ function changeColor(number) {
 
 // hlavni funkce nafouknuti balonku ... zajisti vsechny zmeny a vola vsechny funkce ktere se ucastni procesu
 function tryToInflate(number){
+
+    switch(number) {
+        case 1:
+
+        break;
+        case 2: 
+        break;
+        case 3:
+        break;
+    }
 
     const balloon = document.getElementById('balloon' + number)
     const color = balloon.dataset.color
@@ -150,6 +159,7 @@ function inflate(number) {
 
 // praskne balon
 function popBalloon(number) {
+    popped++
     inPop = number
     popSound.play()
     console.log('POP!')
@@ -174,23 +184,46 @@ function collect() {
         const probability = document.getElementById('balloon1percent')
         let probabilityData = Number(balloon.dataset.probability)
         numberOfPoints += Math.floor(numberOfPoints * (probabilityData / 100))
+        points.textContent = numberOfPoints
+        popped++
         newBalloon(1)
+        if (maxBalloons < popped) {
+            newGame()
+            return
+        }
+    
     }
 
+    
     if(balloon2 == 'true') {
         const balloon = document.getElementById('balloon2')
         const probability = document.getElementById('balloon2percent')
         let probabilityData = Number(balloon.dataset.probability)
         numberOfPoints += Math.floor(numberOfPoints * probabilityData / 100)
+        points.textContent = numberOfPoints
+        popped++
         newBalloon(2)
+        if (maxBalloons < popped) {
+            newGame()
+            return
+        }
+    
     }
+    
 
     if(balloon3 == 'true') {
         const balloon = document.getElementById('balloon3')
         const probability = document.getElementById('balloon3percent')
         let probabilityData = Number(balloon.dataset.probability)
         numberOfPoints += Math.floor(numberOfPoints * probabilityData / 100)
+        points.textContent = numberOfPoints
+        popped++
         newBalloon(3)
+        if (maxBalloons < popped) {
+            newGame()
+            return
+        }
+    
     }
     
     if(numberAtStart < numberOfPoints) {
@@ -213,10 +246,7 @@ function dice(min, max) {
 
 function check() {
     if (maxBalloons < popped) {
-
-
-        alert('All balloons were used.\nYou have ' + points.innerHTML + ' points.')
-        newGame()
+        alert('All balloons were used.\nYou have ' + points.textContent + ' points.')
     }
 }
 
@@ -224,7 +254,7 @@ function check() {
 function newGame() {
     points.textContent = 100
     popped = 0
-    poppedValue.textContent = popped
+    poppedValue.textContent = 0
     newBalloon(1)
     newBalloon(2)
     newBalloon(3)
