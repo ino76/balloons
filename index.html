@@ -62,6 +62,22 @@ font-size: 25px;
         .input-group {
             display: none;
         }
+
+        .balloonInnerWrap {
+            width: 30vw;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            /* border: 1px solid green; */
+            justify-content: space-between;
+        }
+
+        .balloonInnerText {
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+        }
     </style>
 </head>
 <body>
@@ -72,55 +88,52 @@ font-size: 25px;
     </a>
 </div>
 
-<div class="input-group">
-    <span class="input-group-addon" id="maxLabel">Pocet balonku</span>
-    <input type="number" id="maxInput" value="8" oninput="setMax()" class="form-control" placeholder="Username" aria-describedby="maxLabel">
-</div>
 
 <div id="hra">
     
     <div id="balloonWrap">
 
-        <div style="width: 30vw; display: flex; justify-content: center;">
-            <img src="" id="balloon1" width="341" height="443" onclick="popBalloon(1)">
-            <div style="display: flex; flex-direction: column; padding: 40px;">
-                <p class="index"><span style="color: rgb(19, 230, 19);">||</span>|||</p>
-                <p>10%</p>
+        <div class=balloonInnerWrap onclick="tryToInflate(1)">
+            <img src="" id="balloon1" data-probability="0" data-color="" data-blowed="false">
+            <div class="balloonInnerText">
+                <p class="index"><span id="balloon1left"></span><span id="balloon1right">|||||</span></p>
+                <p><span id="balloon1percent"></span>%</p>
             </div>
         </div>
 
-        <div style="width: 30vw; display: flex; justify-content: center;">
-            <img src="" id="balloon2" width="341" height="443" onclick="popBalloon(2)">
-            <div style="display: flex; flex-direction: column; padding: 40px;">
-                <p class="index"><span style="color: rgb(230, 191, 19);">||||</span>|</p>
-                <p>20%</p>
+        <div class=balloonInnerWrap onclick="tryToInflate(2)">
+            <img src="" id="balloon2" data-probability="0" data-color="" data-blowed="false">
+            <div class="balloonInnerText">
+                <p class="index"><span id="balloon2left"></span><span id="balloon2right">|||||</span></p>
+                <p><span id="balloon2percent"></span>%</p>
             </div>
         </div>
 
-        <div style="width: 30vw; display: flex; justify-content: center;">
-                <img src="" id="balloon3" width="341" height="443" onclick="popBalloon(3)">
-                <div style="display: flex; flex-direction: column; padding: 40px;">
-                    <p class="index"><span style="color: rgb(230, 44, 19);">|||||</span></p>
-                    <p>40%</p>
+        <div class=balloonInnerWrap onclick="tryToInflate(3)">
+                <img src="" id="balloon3" data-probability="0" data-color="" data-blowed="false">
+                <div class="balloonInnerText">
+                    <p class="index"><span id="balloon3left"></span><span id="balloon3right">|||||</span></p>
+                    <p><span id="balloon3percent"></span>%</p>
                 </div>
             </div>
         
         
         
     </div>
+
+    <button class="btn btn-success" onclick="collect()">collect</button>
+    <br><br><br>
     <div id="balloons">
+            
+
         <h1>Balloons</h1>
         <p>
             Try to collect as much money as you can. Different colors of balloons has different chance to burst.
             Inflate will rise reward about five coins, but if balloon would burst, all reward would be gone.
         </p>
-        <p>coins: <span id="vybrano">0</span></p>
-        <p>used balloons: <span id="nafouknuto">0</span>/<span id="maxBalonku">20</span></p>
-        <p>reward: <span id="Kc">0</span></p>
-        <div>
-            <button id="airButton" class="btn btn-danger" onclick="nafoukni()">inflate</button>
-            <button class="btn btn-success" onclick="vyber()">collect</button>
-        </div>
+        <p>points: <span id="points"></span></p>
+        <p>used balloons: <span id="popped">0</span>/<span id="maxBalonku">5</span></p>
+
 
     </div>
 </div>

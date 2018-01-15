@@ -1,22 +1,15 @@
 // Balloon game
 // author: Daniel Cech 2017
 
-const airButton = document.getElementById('airButton')
-const vybrano = document.getElementById('vybrano')
-const kc = document.getElementById('Kc')
-const nafouknuto = document.getElementById('nafouknuto')
-const maxBalonku = document.getElementById('maxBalonku')
-const maxInput = document.getElementById('maxInput')
-
 const START_WIDTH = '110px'
 const START_HEIGHT = '150px'
 const coinsSound = document.getElementById('coins')
 const popSound = document.getElementById('pop')
-
-let vybranoValue = Number(vybrano.textContent)
-let kcValue = Number(kc.textContent)
-let nafouknutoValue = Number(nafouknuto.textContent)
-let maxBalonkuValue = Number(maxBalonku.textContent)
+const points = document.getElementById('points')
+const poppedValue = document.getElementById('popped')
+const balloonsMax = document.getElementById('balloonsMax')
+let popped = 0
+let maxBalloons = Number(maxBalonku.textContent)
 balloon1.style.width = START_WIDTH
 balloon1.style.height = START_HEIGHT
 
@@ -26,80 +19,37 @@ balloon2.style.height = START_HEIGHT
 balloon3.style.width = START_WIDTH
 balloon3.style.height = START_HEIGHT
 let color = ['red', 'green', 'blue']
-let probabilityToPop
-let addedProbability = 0
-let randColor1
-let randColor2
-let randColor3
-let lastColor
-let koeficient = 0
 
 let inPop = 0
 
-window.onload = changeColor(1)
-window.onload = changeColor(2)
-window.onload = changeColor(3)
+window.onload = newGame()
 
-// zjisti jestli balonek praskl nebo nepraskl
-function checkRandomPop() {
-    let random = Math.random() * 100
-    random = Math.ceil(random)
-    console.log('hod kostkou: ' + random)
-    if (probabilityToPop >= random){
-        popBalloon()
-    }
-}
+function newBalloon(number) {
+    popped++
+    check()
 
-
-// praskne balon
-function popBalloon(number) {
-    if(inPop == number) {
-        return
-    }
-
-    inPop = number
-
-    popSound.play()
-    console.log('POP!')
-    nafouknutoValue++
-    nafouknuto.textContent = nafouknutoValue
+    poppedValue.textContent = popped
     const balloon = document.getElementById('balloon' + number)
-    let color
-    switch(number) {
-        case 1:
-            color = randColor1
-        break;
-        case 2:
-            color = randColor2
-        break;
-        case 3:
-            color = randColor3
-        break;
-    }
-    balloon.src = 'images/' + color + 'Pop.png'
-    airButton.disabled = true
-    setTimeout(function(number){kontrola(number)}, 1000)
+    const probability = document.getElementById('balloon' + number + 'percent')
+    balloon.dataset.probability = 0
+    probability.innerHTML = 0
+    balloon.dataset.blowed = "false"
+    
+    balloon.style.width = START_WIDTH
+    balloon.style.height = START_HEIGHT
+    changeColor(number)
+
+    const balloonRight =  document.getElementById('balloon' + number + 'right')
+    const balloonLeft =  document.getElementById('balloon' + number + 'left')
+    balloonRight.textContent = '|||||'
+    balloonLeft.textContent = ''
 }
 
-// zmeni barvu balonku tak aby se vybrala jina nez posledni
+// zmeni barvu balonku
 function changeColor(number) {
 
-    let newColor = color[Math.floor(Math.random() * color.length)]
-
-    probabilityToPop = 0
-
-    switch(newColor) {
-        case 'red':
-
-        break;
-        case 'blue':
-
-        break;
-        case 'green':
- 
-        break;
-    }
-
+    const newColor = color[Math.floor(Math.random() * color.length)]
+   
     switch(number) {
         case 1:
             randColor1 = newColor
@@ -112,108 +62,170 @@ function changeColor(number) {
         break;
     }
 
-    console.log('barva nastavena na ' + newColor)
-    console.log('pravdepodobnost prasknuti je ' + probabilityToPop + '%')
 
+    console.log('barva nastavena na ' + newColor)
     const balloon = document.getElementById('balloon' + number)
     balloon.src = 'images/' + newColor + 'Balloon.png'
+    balloon.dataset.color = newColor
 }
 
-
-
-function balonPrifouknut() {
-    console.log('rozmer: ' +
-        balloon.style.width.slice(0,-2) + ' x ' + balloon.style.height.slice(0,-2))
-    let newWidth = Number(balloonWidth.slice(0, -2)) + 10
-    let newHeight = Number(balloonHeight.slice(0, -2)) + 15
-    balloonWidth = newWidth + 'px'
-    balloonHeight = newHeight + 'px'
-    balloon.style.width = balloonWidth
-    balloon.style.height = balloonHeight
-}
 
 // hlavni funkce nafouknuti balonku ... zajisti vsechny zmeny a vola vsechny funkce ktere se ucastni procesu
-function nafoukni(){
-
-    switch(randColor) {
-        case 'red':
-            kcValue = Number(kc.textContent) + (30 * probabilityToPop) + 5
-        break;
-
-        case 'blue':
-            kcValue = Number(kc.textContent) + (15 * probabilityToPop) + 5
-        break;
-
-        case 'green':
-            kcValue = Number(kc.textContent) + (5 * probabilityToPop) + 5
-        break;
-    }
-    
-    kc.textContent = (kcValue)
-    checkRandomPop()
-    balonPrifouknut()
-    probabilityToPop += addedProbability
-    console.log('pravdepodobnost prasknuti je ' + probabilityToPop + '%')
-    console.log('odmena je ' + kc.textContent + ' kreditu')
-}
-
-
-function novyBalon(number) {
-    kcValue = 0
-    kc.textContent = kcValue
+function tryToInflate(number){
 
     const balloon = document.getElementById('balloon' + number)
-    balloon.style.width = START_WIDTH
-    balloon.style.height = START_HEIGHT
-    changeColor(number)
-}
+    const color = balloon.dataset.color
+    const probability = document.getElementById('balloon' + number + 'percent')
+    let probabilityData = Number(balloon.dataset.probability)
+    
+    balloon.dataset.blowed = "true"
 
-
-function setMax() {
-    if (Number(maxInput.value) > nafouknutoValue) {
-        maxBalonkuValue = Number(maxInput.value)
-        maxBalonku.textContent = maxBalonkuValue
-    } else {
-        number.value == nafouknutoValue + 1
+    if(dice(1, 100) <= probabilityData) {
+        popBalloon(number)
     }
+
+    switch(color) {
+        case "red":
+        probabilityData += dice(12, 20) 
+        break;
+        case "blue":
+        probabilityData += dice(10, 15) 
+        break;
+        case "green":
+        probabilityData += dice(5, 12) 
+        break;
+    }
+
+    balloon.dataset.probability = probabilityData
+    probability.innerHTML = probabilityData
+    inflate(number)
 }
 
 
-function vyber() {
-    nafouknutoValue++
-    vybranoValue += kcValue
-    kc.textContent = kcValue
-    vybrano.textContent = vybranoValue
-    nafouknuto.textContent = nafouknutoValue
-    if(kcValue > 0) {
-        kcValue = 0
+//zvetsi velikost konkretniho balonu a zmeni barvu carkoveho ukazatele
+function inflate(number) {
+    
+    const balloon = document.getElementById('balloon' + number)
+    const probability = document.getElementById('balloon' + number + 'percent')
+    let probabilityData = Number(balloon.dataset.probability)
+
+    const width = (Number(balloon.style.width.slice(0, -2)) + 16) + 'px'
+    const height = (Number(balloon.style.height.slice(0, -2)) + 24) + 'px'
+    balloon.style.width = width
+    balloon.style.height = height
+
+    const balloonRight =  document.getElementById('balloon' + number + 'right')
+    const balloonLeft =  document.getElementById('balloon' + number + 'left')
+    const numberOfRight = balloonRight.textContent.length
+    if(numberOfRight > 0) {
+        balloonLeft.textContent += '|'
+        balloonRight.textContent = balloonRight.textContent.substr(1);
+    } else {
+        popBalloon(number)
+    }
+
+    switch (numberOfRight) {
+        case 5:
+        case 4:
+            balloonLeft.style.color = "#0bd10b"
+        break;
+        case 3:
+        case 2:
+            balloonLeft.style.color = "#e69e04"
+        break;
+        case 1:
+            balloonLeft.style.color = "red"
+            balloon.dataset.probability = 100
+            probability.innerHTML = 100
+        break;
+    }
+
+
+    console.log('rozmer: ' +
+        balloon.style.width.slice(0,-2) + ' x ' + balloon.style.height.slice(0,-2))
+    console.log(balloon.dataset.probability)
+}
+
+
+
+// praskne balon
+function popBalloon(number) {
+    inPop = number
+    popSound.play()
+    console.log('POP!')
+    const balloon = document.getElementById('balloon' + number)
+    let color = balloon.dataset.color
+    balloon.src = 'images/' + color + 'Pop.png'
+    setTimeout(function(){newBalloon(number)}, 1000)
+}
+
+
+function collect() {
+    const balloon1 = document.getElementById('balloon1').dataset.blowed
+    const balloon2 = document.getElementById('balloon2').dataset.blowed
+    const balloon3 = document.getElementById('balloon3').dataset.blowed
+
+    let numberOfPoints = Number(points.innerHTML)
+    let numberAtStart = numberOfPoints
+
+
+    if(balloon1 == 'true') {
+        const balloon = document.getElementById('balloon1')
+        const probability = document.getElementById('balloon1percent')
+        let probabilityData = Number(balloon.dataset.probability)
+        numberOfPoints += Math.floor(numberOfPoints * (probabilityData / 100))
+        newBalloon(1)
+    }
+
+    if(balloon2 == 'true') {
+        const balloon = document.getElementById('balloon2')
+        const probability = document.getElementById('balloon2percent')
+        let probabilityData = Number(balloon.dataset.probability)
+        numberOfPoints += Math.floor(numberOfPoints * probabilityData / 100)
+        newBalloon(2)
+    }
+
+    if(balloon3 == 'true') {
+        const balloon = document.getElementById('balloon3')
+        const probability = document.getElementById('balloon3percent')
+        let probabilityData = Number(balloon.dataset.probability)
+        numberOfPoints += Math.floor(numberOfPoints * probabilityData / 100)
+        newBalloon(3)
+    }
+    
+    if(numberAtStart < numberOfPoints) {
         coinsSound.play()
     }
-    kontrola()
+    points.textContent = numberOfPoints
 }
 
 
-function kontrola(number) {
-    inPop = 0
-    airButton.disabled = false
-    if (maxBalonkuValue === nafouknutoValue) {
-        alert('All balloons were used.\nSummary:\n\n' + 'Koeficient: ' + koeficient +
-              '\nCollected coins: ' + vybranoValue +
-              '\nOverall rating: ' + Math.ceil(vybranoValue / koeficient * 100) + '%')
-        obnovNastaveni()
-    } else {
-        novyBalon(number)
+
+// kostka min-max
+function dice(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+
+
+
+function check() {
+    if (maxBalloons < popped) {
+
+
+        alert('All balloons were used.\nYou have ' + points.innerHTML + ' points.')
+        newGame()
     }
 }
 
 
-function obnovNastaveni() {
-    koeficient = 0
-    vybranoValue = 0
-    kcValue = 0
-    nafouknutoValue = 0
-    vybrano.textContent = vybranoValue
-    kc.textContent = kcValue
-    nafouknuto.textContent = nafouknutoValue
-    novyBalon()
+function newGame() {
+    points.textContent = 100
+    popped = 0
+    poppedValue.textContent = popped
+    newBalloon(1)
+    newBalloon(2)
+    newBalloon(3)
 }
