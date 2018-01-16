@@ -89,9 +89,13 @@
     </style>
 </head>
 <body>
-
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 <div class="home" style="position: absolute;padding-top: 15px; padding-left: 15px;">
-    <a class="btn btn-dark" href="/js/page/index.html">
+    <a class="btn btn-dark" href="" onclick="goBack()">
         <i class="fa fa-arrow-left"></i> back to game selecton
     </a>
 </div>
