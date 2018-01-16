@@ -187,9 +187,12 @@ function collect() {
         const probability = document.getElementById('balloon1percent')
         let probabilityData = Number(balloon.dataset.probability)
         numberOfPoints += Math.floor(numberOfPoints * (probabilityData / 100))
+        coinsSound.currentTime = 0;
+        coinsSound.play()
         points.textContent = numberOfPoints
         popped++
-        newBalloon(1)    
+        points.textContent = numberOfPoints
+        newBalloon(1) 
     }
     
     // if(balloon2 == 'true') {
@@ -223,18 +226,7 @@ function collect() {
     //     return
     // }
     
-    if(numberAtStart < numberOfPoints) {
-        coinsSound.currentTime = 0;
-        coinsSound.play()
-    }
 
-    if (maxBalloons < popped) {
-        console.log('nova hra')
-        newGame()
-        return
-    } else {
-        points.textContent = numberOfPoints
-    }
 }
 
 
