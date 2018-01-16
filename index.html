@@ -33,7 +33,11 @@
             <img src="" onclick="tryToInflate(1)" id="balloon1" data-probability="0" data-color="" data-blowed="false" data-popped="">
             <div class="balloonInnerText">
                 <p class="center index"><span id="balloon1left"></span><span id="balloon1right">|||||</span></p>
-                <p class="center">risk: <span id="balloon1percent"></span>%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="bonusPoints"></span></p>
+                <p class="center">
+                    chance to pop: <span id="balloon1percent" class="white"></span>%
+                </p>
+                <p class="center">
+                    or collect <span id="bonusPoints" class="white"></span> points</p>
                 <div class="btn-group center" role="group" aria-label="inflate / collect">
                     <button class="btn btn-primary" onclick="tryToInflate(1)">inflate</button>
                     <button class="btn btn-success" onclick="collect()">collect</button>

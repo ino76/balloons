@@ -115,7 +115,7 @@ function inflate(number) {
     const points = document.getElementById('points')
     const probability = document.getElementById('balloon' + number + 'percent')
     let probabilityData = Number(balloon.dataset.probability)
-    bonusPoints.textContent = '+ ' + Math.floor(Number(points.innerHTML) * (probabilityData / 100)) + ' points'
+    bonusPoints.textContent = '' + Math.floor(Number(points.innerHTML) * (probabilityData / 100)) + ''
     const width = (Number(balloon.style.width.slice(0, -2)) + 16) + 'px'
     const height = (Number(balloon.style.height.slice(0, -2)) + 24) + 'px'
     balloon.style.width = width
