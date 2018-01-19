@@ -144,7 +144,7 @@ function inflate(number) {
             balloonLeft.style.color = "red"
             balloon.dataset.probability = 100
             probability.innerHTML = 100
-            bonusPoints.textContent = '+ ' + points.innerHTML + ' points'
+            bonusPoints.textContent = '' + points.innerHTML + ' points'
         break;
     }
 
@@ -171,6 +171,10 @@ function popBalloon(number) {
 
 
 function collect() {
+    const balloon = document.getElementById('balloon1')
+    if(balloon.dataset.popped == 'pop') {
+        return
+    }
     const balloon1 = document.getElementById('balloon1').dataset.blowed
     let numberOfPoints = Number(points.innerHTML)
     let numberAtStart = numberOfPoints
